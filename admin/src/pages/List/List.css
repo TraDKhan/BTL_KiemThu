@@ -5,6 +5,11 @@
     box-sizing: border-box;
 }
 
+.list-wrapper {
+    max-width: 900px;
+    margin: -40px auto 0;
+}
+
 .page-title {
     font-size: 20px;
     font-weight: 600;
@@ -56,7 +61,7 @@
     }
 
     .edit-form-row textarea {
-        min-height: 100px;
+        min-height: 60px;
         resize: vertical;
     }
 
@@ -99,79 +104,30 @@
 
 /* ========== LIST TABLE ========== */
 
+.list-table {
+    margin-top: 24px;
+}
+
 .list-table-format {
     display: grid;
-    grid-template-columns: 80px 2fr 1fr 80px 120px; /* sửa lại width các cột */
+    grid-template-columns: 80px 2fr 1fr 80px 120px;
     align-items: center;
-    gap: 15px;
-    padding: 12px 15px;
-    border: 1px solid #cacaca;
-    font-size: 13px;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    margin-bottom: 8px;
+    background: white;
     border-radius: 8px;
-    background-color: #ffffff;
 }
 
+    .list-table-format.title {
+        background: #f9f9f9;
+        font-weight: 600;
+    }
 
-.list-table-format:hover {
-    background-color: #f1f1f1;
-    transform: translateY(-2px);
-}
-
-.list-table-format.title {
-    background-color: #f9f9f9;
-    font-weight: bold;
-    color: #333;
-}
-
-.list-table-format.title b {
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.list-table-format img {
-    width: 50px;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.list-table-format p {
-    margin: 0;
-    font-size: 14px;
-    color: #555;
-    transition: color 0.3s;
-}
-.list-table-format p {
-    display: flex;
-    gap: 10px;
-}
-.list-table-format p:last-child button:nth-child(1) {
-    background-color: #2196F3;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.list-table-format p:last-child button:nth-child(1):hover {
-    background-color: #1976D2;
-}
-
-
-.list-table-format p:hover {
-    color: #007bff;
-}
-
-.cursor {
-    cursor: pointer;
-    color: #e74c3c;
-    transition: color 0.3s;
-}
-
-.cursor:hover {
-    color: #c0392b;
-}
+    .list-table-format img {
+        width: 50px;
+        border-radius: 5px;
+    }
 
 
 /* ========== MOBILE ========== */
