@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./List.css";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Swal from 'sweetalert2'
 
 const List = ({ url }) => {
     const [list, setList] = useState([]);
@@ -28,16 +29,28 @@ const List = ({ url }) => {
 
     // Remove food item
     const removeFood = async (foodId) => {
-        const response = await axios.post(`${url}/api/food/remove`, {
-            id: foodId,
-        });
-        await fetchList();
+        Swal.fire({
+            title: "Bạn có chắc muốn xóa?",
+            text: "Sản phẩm sẽ bị xóa vĩnh viễn!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Xóa",
+            cancelButtonText: "Hủy",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const response = await axios.post(`${url}/api/food/remove`, {
+                    id: foodId,
+                });
+                await fetchList();
 
-        if (response.data.success) {
-            toast.success(response.data.message);
-        } else {
-            toast.error("Error removing product");
-        }
+                if (response.data.success) {
+                    toast.success(response.data.message);
+                } else {
+                    toast.error("Error removing product");
+                }
+            }
+        })
+
     };
 
     // Start editing a product
