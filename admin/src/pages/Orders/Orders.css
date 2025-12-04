@@ -1,15 +1,13 @@
-.order-item {
+.order-item{
     display: grid;
-    grid-template-columns: 0.6fr 2fr 1fr 1fr 1fr;
-    gap: 25px;
-    padding: 18px;
-    margin: 25px 0;
+    grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr;
+    align-items: start;
+    gap: 30px;
     border: 1px solid tomato;
-    border-radius: 10px;
+    padding: 20px;
+    margin: 30px 0px;
     font-size: 14px;
-    background: #fffdfc;
     color: #505050;
-    align-items: center;
 }
 
 /* Ảnh sản phẩm */
@@ -22,6 +20,7 @@
 .order-item-name {
     font-weight: 700;
     margin-bottom: 5px;
+    margin-top: 30px;
 }
 
 /* Address */

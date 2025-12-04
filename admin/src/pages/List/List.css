@@ -1,22 +1,9 @@
-
-.list {
-    width: 100%;
-    padding: 0 40px 20px; 
-    box-sizing: border-box;
-}
-
-.list-wrapper {
-    max-width: 900px;
-    margin: -40px auto 0;
-}
-
 .page-title {
     font-size: 20px;
     font-weight: 600;
     color: #e74c3c;
     margin-bottom: 12px;
 }
-
 
 /* ========== FORM EDIT ========== */
 
@@ -26,10 +13,10 @@
     background: white;
     border-radius: 14px;
     border: 1px solid #eee;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
     display: flex;
     flex-direction: column;
-    gap: 12px; 
+    gap: 12px;
     margin-top: 8px;
 }
 
@@ -45,25 +32,25 @@
     gap: 4px;
 }
 
-    .edit-form-row label {
-        font-size: 13px;
-        color: #666;
-    }
+.edit-form-row label {
+    font-size: 13px;
+    color: #666;
+}
 
-    .edit-form-row input,
-    .edit-form-row textarea,
-    .edit-form-row select {
-        padding: 8px 10px;
-        border-radius: 8px;
-        border: 1px solid #dcdcdc;
-        background: #fafafa;
-        font-size: 14px;
-    }
+.edit-form-row input,
+.edit-form-row textarea,
+.edit-form-row select {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #dcdcdc;
+    background: #fafafa;
+    font-size: 14px;
+}
 
-    .edit-form-row textarea {
-        min-height: 60px;
-        resize: vertical;
-    }
+.edit-form-row textarea {
+    min-height: 60px;
+    resize: vertical;
+}
 
 /* BUTTONS */
 .edit-form-actions {
@@ -76,7 +63,7 @@
 .btn-save,
 .btn-cancel {
     min-width: 110px;
-    padding: 8px 14px; 
+    padding: 8px 14px;
     border-radius: 30px;
     border: none;
     font-size: 14px;
@@ -88,47 +75,99 @@
     color: #fff;
 }
 
-    .btn-save:hover {
-        background: #ff5252;
-    }
+.btn-save:hover {
+    background: #ff5252;
+}
 
 .btn-cancel {
     background: #f3f3f3;
     color: #555;
 }
 
-    .btn-cancel:hover {
-        background: #e4e4e4;
-    }
+.btn-cancel:hover {
+    background: #e4e4e4;
+}
 
 
 /* ========== LIST TABLE ========== */
 
-.list-table {
-    margin-top: 24px;
-}
-
 .list-table-format {
     display: grid;
     grid-template-columns: 80px 2fr 1fr 80px 120px;
+    /* sửa lại width các cột */
     align-items: center;
-    padding: 10px 12px;
-    border: 1px solid #ddd;
+    gap: 15px;
+    padding: 12px 15px;
+    border: 1px solid #cacaca;
     margin-bottom: 8px;
-    background: white;
+    font-size: 13px;
     border-radius: 8px;
+    background-color: #ffffff;
 }
 
-    .list-table-format.title {
-        background: #f9f9f9;
-        font-weight: 600;
-    }
 
-    .list-table-format img {
-        width: 50px;
-        border-radius: 5px;
-    }
+.list-table-format:hover {
+    background-color: #f1f1f1;
+    transform: translateY(-2px);
+}
 
+.list-table-format.title {
+    background-color: #f9f9f9;
+    font-weight: bold;
+    color: #333;
+}
+
+.list-table-format.title b {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.list-table-format img {
+    width: 50px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.list-table-format p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.list-table-format p {
+    display: flex;
+    gap: 10px;
+}
+
+.list-table-format p:last-child button:nth-child(1) {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.list-table-format p:last-child button:nth-child(1):hover {
+    background-color: #1976D2;
+}
+
+
+.list-table-format p:hover {
+    color: #007bff;
+}
+
+.cursor {
+    cursor: pointer;
+    color: #e74c3c;
+    transition: color 0.3s;
+}
+
+.cursor:hover {
+    color: #c0392b;
+}
 
 /* ========== MOBILE ========== */
 
