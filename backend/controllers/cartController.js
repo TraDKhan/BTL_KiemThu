@@ -1,76 +1,78 @@
 import userModel from "../models/userModel.js"
 
 //add items to UserCart
-const addToCart = async(req,res)=>{
+const addToCart = async (req, res) => {
 
     try {
         let userData = await userModel.findById(req.body.userId);
 
         let cartData = await userData.cartData;
 
-        if(!cartData[req.body.itemId]){
+        if (!cartData[req.body.itemId]) {
 
             cartData[req.body.itemId] = 1
         }
 
         else {
 
-            cartData[req.body.itemId] +=1;
+            cartData[req.body.itemId] += 1;
         }
 
-        await userModel.findByIdAndUpdate(req.body.userId,{cartData});
+        await userModel.findByIdAndUpdate(req.body.userId, { cartData });
 
-        res.json({success:true,message:"Added to cart sucessfully"})
+        res.json({ success: true, message: "Added to cart sucessfully" })
 
 
     } catch (error) {
 
         console.log(error);
-        res.json({success:false,message:"Error"});
-        
+        res.json({ success: false, message: "Error" });
+
     }
 
 }
 
 //remove Items from userCart
 
-const removeFromCart = async(req,res)=>{
+const removeFromCart = async (req, res) => {
 
     try {
+        console.log("check req.body: ", req.body);
+
         let userData = await userModel.findById(req.body.userId);
 
         let cartData = await userData.cartData;
-        if (cartData[req.body.itemId]>0) {
+        if (cartData[req.body.itemId] > 0) {
 
-            cartData[req.body.itemId] -=1;
-            
+            cartData[req.body.itemId] -= 1;
+
         }
 
-        await userModel.findByIdAndUpdate(req.body.userId,{cartData});
-        res.json({success:true,message:"Remove From Cart"})
+        await userModel.findByIdAndUpdate(req.body.userId, { cartData });
+        res.json({ success: true, message: "Remove From Cart" })
 
     } catch (error) {
 
         console.log(error);
-        res.json({success:false,message:"Error"})
-        
+        res.json({ success: false, message: "Error" })
+
     }
 
 }
 
 //fetch User Cart Data
-const getCart = async(req,res)=>{
+const getCart = async (req, res) => {
     try {
         let userData = await userModel.findById(req.body.userId);
         let cartData = await userData.cartData;
-        res.json({success:true,cartData})
+        res.json({ success: true, cartData })
     } catch (error) {
         console.log(error);
 
-        res.json({success:false,message:"Error"});
+        res.json({ success: false, message: "Error" });
 
     }
 
 }
 
-export{addToCart,removeFromCart,getCart}
+export { addToCart, removeFromCart, getCart }
