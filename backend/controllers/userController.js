@@ -9,19 +9,22 @@ import validator from "validator"
 const loginUser = async (req, res) => {
 
     const { email, password } = req.body;
+    console.log('check email: ', email);
+
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
     try {
-        if (email === '') {
+        if (!email) {
             return res.json({ success: false, message: "Email không được để trống!" })
         } else if (!regex.test(email)) {
             return res.json({ success: false, message: "Email không đúng định dạng!" })
-        } else if (password.length < 6) {
+        } else if (password === '') {
+            return res.json({ success: false, message: "Mật khẩu không được để trống" })
+        }
+        else if (password.length < 6) {
             return res.json({ success: false, message: "Mật khẩu phải từ 6-16 kí tự" })
         } else if (password.length > 16) {
             return res.json({ success: false, message: "Mật khẩu phải từ 6-16 kí tự" })
-        } else if (password === '') {
-            return res.json({ success: false, message: "Mật khẩu không được để trống" })
         }
 
         const user = await userModel.findOne({ email });
@@ -53,21 +56,35 @@ const createToken = (id) => {
 //Sign up
 const registerUser = async (req, res) => {
     const { name, password, email } = req.body;
+    if (!email) {
+        return res.json({ success: false, message: "Email không được để trống!" })
+    } else if (!name) {
+        return res.json({ success: false, message: "Tên không được để trống!" })
+    } else if (!regex.test(email)) {
+        return res.json({ success: false, message: "Email không đúng định dạng!" })
+    } else if (password === '') {
+        return res.json({ success: false, message: "Mật khẩu không được để trống" })
+    }
+    else if (password.length < 6) {
+        return res.json({ success: false, message: "Mật khẩu phải từ 6-16 kí tự" })
+    } else if (password.length > 16) {
+        return res.json({ success: false, message: "Mật khẩu phải từ 6-16 kí tự" })
+    }
     try {
         //Check user Existions
         const exists = await userModel.findOne({ email })
         if (exists) {
-            return res.json({ success: false, message: "Already Exists" })
+            return res.json({ success: false, message: "Email đã được sử dụng" })
         }
 
         //validating email format and STRONG PASSWORD
 
         if (!validator.isEmail(email)) {
-            return res.json({ success: false, message: "Enter a valid email" })
+            return res.json({ success: false, message: "Email không đúng định dạng" })
         }
 
-        if (password.length < 8) {
-            return res.json({ success: false, message: "Enter a stronger password" })
+        if (password.length < 6) {
+            return res.json({ success: false, message: "Mật khẩu phải từ 6 đến 16 kí tự" })
 
         }
 
@@ -84,7 +101,7 @@ const registerUser = async (req, res) => {
 
         const user = await newUser.save();
         const token = createToken(user._id)
-        res.json({ success: true, token });
+        res.json({ success: true, token, message: "Đăng ký thành công!" });
 
 
     } catch (error) {

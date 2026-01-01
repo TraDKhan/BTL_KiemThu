@@ -6,14 +6,22 @@ import mongoose from "mongoose";
 //add items : 
 
 const addFood = async (req, res) => {
+    const { name, description, price, category } = req.body;
+    if (!name || !description || !price || !category) {
+        return res.status(404).json({ success: false, message: "Vui lòng nhập đủ dữ liệu !" });
+    }
+
+    if (Number.isFinite(price)) {
+        return res.status(404).json({ success: false, message: "Giá trị giá không hợp lệ !" });
+    }
 
     let image_filename = `${req.file.filename}`;
 
     const food = new foodModel({
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        category: req.body.category,
+        name: name,
+        description: description,
+        price: price,
+        category: category,
         image: image_filename
     })
 
@@ -21,7 +29,7 @@ const addFood = async (req, res) => {
         await food.save();
         res.status(201).json({
             success: true,
-            message: "Product added",
+            message: "Thêm thành công",
             data: food
         });
 
@@ -56,7 +64,7 @@ const removeFood = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({
                 success: false,
-                message: "Product item not found"
+                message: "Sản phẩm không tồn tại !"
             });
         }
 
@@ -65,7 +73,7 @@ const removeFood = async (req, res) => {
         if (!food) {
             return res.status(404).json({
                 success: false,
-                message: "Product item not found"
+                message: "Sản phẩm không tồn tại !"
             });
         }
 
@@ -79,7 +87,7 @@ const removeFood = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "Product item removed"
+            message: "Xóa sản phẩm thành công"
         });
 
     } catch (error) {
@@ -100,6 +108,13 @@ const updateFood = async (req, res) => {
         category,
     };
 
+    if (!name || !description || !price || !category) {
+        return res.status(404).json({ success: false, message: "Vui lòng nhập đủ dữ liệu !" });
+    }
+
+    if (Number.isFinite(price)) {
+        return res.status(404).json({ success: false, message: "Giá trị giá không hợp lệ !" });
+    }
 
     if (req.file) {
         const food = await foodModel.findById(id);
@@ -118,10 +133,10 @@ const updateFood = async (req, res) => {
         const updatedFood = await foodModel.findByIdAndUpdate(id, updatedData, { new: true });
 
         if (!updatedFood) {
-            return res.status(404).json({ success: false, message: "Product item not found" });
+            return res.status(404).json({ success: false, message: "Sản phẩm không tồn tại !" });
         }
 
-        res.json({ success: true, message: "Product item updated successfully", data: updatedFood });
+        res.json({ success: true, message: "Cập nhập thành công", data: updatedFood });
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: "Error updating food item" });

@@ -4,9 +4,20 @@ const addPromoCode = async (req, res) => {
   const { code, discount, expirationDate, isActive } = req.body;
 
   try {
+    const inputDate = new Date(expirationDate);
+    const today = new Date();
+
+    if (!code || !discount || !expirationDate || !isActive) {
+      return res.status(400).json({ success: false, message: "Vui lòng nhập đầy đủ thông tin!" });
+    }
+
+    if (inputDate < today) {
+      return res.status(400).json({ success: false, message: "Ngày hết hạn không hợp lệ!" });
+    }
+
     const existingCode = await PromoCode.findOne({ code });
     if (existingCode) {
-      return res.status(400).json({ success: false, message: "Promo code already exists" });
+      return res.status(400).json({ success: false, message: "Mã đã tồn tại vui lòng điền mã khác!" });
     }
 
     const newPromoCode = new PromoCode({
@@ -17,7 +28,7 @@ const addPromoCode = async (req, res) => {
     });
 
     await newPromoCode.save();
-    res.json({ success: true, message: "Promo code added successfully" });
+    res.json({ success: true, message: "Thêm mã thành công!" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Error adding promo code" });

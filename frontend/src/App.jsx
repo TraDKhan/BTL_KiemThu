@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
@@ -22,7 +22,7 @@ const App = () => {
     <>
       {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
       <div className={`app ${isDarkMode ? 'dark' : 'light'}`}>
-        <Navbar setShowLogin={setShowLogin} toggleTheme={toggleTheme} isDarkMode={isDarkMode}/>
+        <Navbar setShowLogin={setShowLogin} toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/cart' element={<Cart />} />
@@ -32,14 +32,13 @@ const App = () => {
           <Route path='/search' element={<SearchResults />} />
           <Route path="/news" element={<News />} />
           <Route path="/post/:postId" element={<PostDetail userId={userId} />} />
-          
         </Routes>
       </div>
 
-      <a className='comments' href='/post/:postId' style={{ marginBottom: '100px' , textDecoration: 'underline', color: 'blue' }} >
+      <a className='comments' href='/post/:postId' style={{ marginBottom: '100px', textDecoration: 'underline', color: 'blue' }} >
         View Comments
       </a>
-      
+
       <Footer />
     </>
   );
