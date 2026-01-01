@@ -113,7 +113,7 @@ const getCart = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    res.json({ success: false, message: "Error" });
+    res.status(400).json({ success: false, message: "Error" });
 
   }
 
