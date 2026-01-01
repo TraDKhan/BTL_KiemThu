@@ -1,61 +1,75 @@
 import foodModel from "../models/foodModel.js";
 import userModel from "../models/userModel.js"
-
+import mongoose from "mongoose";
 //add items to UserCart
 const addToCart = async (req, res) => {
-    try {
-        // 👇 userId CHỈ LẤY TỪ TOKEN
-        const userId = req.body.userId;
-        const { itemId, quantity } = req.body;
+  try {
+    // 👇 userId CHỈ LẤY TỪ TOKEN
+    const userId = req.body.userId;
+    const { itemId, quantity } = req.body;
 
-        // Thiếu item
-        if (!itemId) {
-            return res.json({ success: false, message: "Thiếu item" });
-        }
-
-        // Số lượng < 1
-        if (!quantity || quantity < 1) {
-            return res.json({ success: false, message: "Số lượng phải >= 1" });
-        }
-
-        //User tồn tại (phòng trường hợp user bị xóa)
-        const userData = await userModel.findById(userId);
-        if (!userData) {
-            return res.json({
-                success: false,
-                message: "User không tồn tại"
-            });
-        }
-
-        let cartData = userData.cartData || {};
-
-        // Đã có sản phẩm
-        if (cartData[itemId]) {
-            return res.json({
-                success: false,
-                message: "Sản phẩm đã có"
-            });
-        }
-
-        // Thêm mới
-        cartData[itemId] = quantity;
-
-        await userModel.findByIdAndUpdate(userId, { cartData });
-
-        res.json({
-            success: true,
-            message: "Thêm thành công"
-        });
-
-    } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: "Lỗi server" });
+    // Thiếu item
+    if (!itemId) {
+      return res.status(400).json({ success: false, message: "Thiếu item" });
     }
+
+    if (!mongoose.Types.ObjectId.isValid(itemId)) {
+      return res.status(400).json({
+        success: false,
+        message: "ID sản phẩm không hợp lệ"
+      });
+    }
+
+    const food = await foodModel.findById(itemId);
+
+    if (!food) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy sản phẩm"
+      });
+    }
+
+    // Số lượng < 1
+    if (!quantity || quantity < 1) {
+      return res.status(400).json({ success: false, message: "Số lượng phải >= 1" });
+    }
+
+    //User tồn tại (phòng trường hợp user bị xóa)
+    const userData = await userModel.findById(userId);
+    if (!userData) {
+      return res.status(400).json({
+        success: false,
+        message: "User không tồn tại"
+      });
+    }
+
+    let cartData = userData.cartData || {};
+
+    // Đã có sản phẩm
+    if (cartData[itemId]) {
+      return res.status(400).json({
+        success: false,
+        message: "Sản phẩm đã có"
+      });
+    }
+
+    // Thêm mới
+    cartData[itemId] = quantity;
+
+    await userModel.findByIdAndUpdate(userId, { cartData });
+
+    res.status(200).json({
+      success: true,
+      message: "Thêm thành công"
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ success: false, message: "Lỗi server" });
+  }
 };
 
 //remove Items from userCart
-
-// import mongoose from "mongoose";
 
 const removeFromCart = async (req, res) => {
   try {
@@ -92,16 +106,16 @@ const removeFromCart = async (req, res) => {
 
 //fetch User Cart Data
 const getCart = async (req, res) => {
-    try {
-        let userData = await userModel.findById(req.body.userId);
-        let cartData = await userData.cartData;
-        res.json({ success: true, cartData })
-    } catch (error) {
-        console.log(error);
+  try {
+    let userData = await userModel.findById(req.body.userId);
+    let cartData = await userData.cartData;
+    res.json({ success: true, cartData })
+  } catch (error) {
+    console.log(error);
 
-        res.json({ success: false, message: "Error" });
+    res.json({ success: false, message: "Error" });
 
-    }
+  }
 
 }
 
