@@ -50,6 +50,7 @@ const listFood = async (req, res) => {
 const removeFood = async (req, res) => {
     try {
         const { id } = req.body;
+        console.log("BODY:", req.body);
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({
