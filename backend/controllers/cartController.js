@@ -1,41 +1,61 @@
+import foodModel from "../models/foodModel.js";
 import userModel from "../models/userModel.js"
 
 //add items to UserCart
 const addToCart = async (req, res) => {
-
     try {
-        let userData = await userModel.findById(req.body.userId);
-        console.log(req.body.userId);
+        // 👇 userId CHỈ LẤY TỪ TOKEN
+        const userId = req.body.userId;
+        const { itemId, quantity } = req.body;
 
-        let cartData = await userData.cartData;
-
-        if (!cartData[req.body.itemId]) {
-
-            cartData[req.body.itemId] = 1
+        // Thiếu item
+        if (!itemId) {
+            return res.json({ success: false, message: "Thiếu item" });
         }
 
-        else {
-
-            cartData[req.body.itemId] += 1;
+        // Số lượng < 1
+        if (!quantity || quantity < 1) {
+            return res.json({ success: false, message: "Số lượng phải >= 1" });
         }
 
-        await userModel.findByIdAndUpdate(req.body.userId, { cartData });
+        //User tồn tại (phòng trường hợp user bị xóa)
+        const userData = await userModel.findById(userId);
+        if (!userData) {
+            return res.json({
+                success: false,
+                message: "User không tồn tại"
+            });
+        }
 
-        res.json({ success: true, message: "Added to cart sucessfully" })
+        let cartData = userData.cartData || {};
 
+        // Đã có sản phẩm
+        if (cartData[itemId]) {
+            return res.json({
+                success: false,
+                message: "Sản phẩm đã có"
+            });
+        }
+
+        // Thêm mới
+        cartData[itemId] = quantity;
+
+        await userModel.findByIdAndUpdate(userId, { cartData });
+
+        res.json({
+            success: true,
+            message: "Thêm thành công"
+        });
 
     } catch (error) {
-
         console.log(error);
-        res.json({ success: false, message: "Error" });
-
+        res.json({ success: false, message: "Lỗi server" });
     }
-
-}
+};
 
 //remove Items from userCart
 
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
 const removeFromCart = async (req, res) => {
   try {
